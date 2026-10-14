@@ -52,6 +52,10 @@ impl DiscordSDK {
         self.internal.source_origin()
     }
 
+    pub fn location_id(&self) -> Option<String> {
+        self.internal.location_id()
+    }
+
     pub fn configuration(&self) -> SdkConfiguration {
         serde_wasm_bindgen::from_value(self.internal.configuration())
             .expect("Failed to deserialize SdkConfiguration")
@@ -145,6 +149,113 @@ impl DiscordSDK {
             .commands()
             .get_instance_connected_participants()
             .await?;
+        Ok(serde_wasm_bindgen::from_value(res)?)
+    }
+
+    pub async fn get_activity_instance_connected_participants(
+        &self,
+    ) -> Result<GetInstanceConnectedParticipantsRes, JsValue> {
+        let res = self
+            .internal
+            .commands()
+            .get_activity_instance_connected_participants()
+            .await?;
+        Ok(serde_wasm_bindgen::from_value(res)?)
+    }
+
+    pub async fn get_user(&self, args: GetUserArgs) -> Result<Option<User>, JsValue> {
+        let args_value = serde_wasm_bindgen::to_value(&args)?;
+        let res = self.internal.commands().get_user(args_value).await?;
+        Ok(serde_wasm_bindgen::from_value(res)?)
+    }
+
+    pub async fn get_relationships(&self) -> Result<GetRelationshipsRes, JsValue> {
+        let res = self.internal.commands().get_relationships().await?;
+        Ok(serde_wasm_bindgen::from_value(res)?)
+    }
+
+    pub async fn get_quest(&self) -> Result<GetQuestRes, JsValue> {
+        let res = self.internal.commands().get_quest().await?;
+        Ok(serde_wasm_bindgen::from_value(res)?)
+    }
+
+    pub async fn get_quest_enrollment_status(
+        &self,
+        args: QuestArgs,
+    ) -> Result<GetQuestEnrollmentStatusRes, JsValue> {
+        let args_value = serde_wasm_bindgen::to_value(&args)?;
+        let res = self
+            .internal
+            .commands()
+            .get_quest_enrollment_status(args_value)
+            .await?;
+        Ok(serde_wasm_bindgen::from_value(res)?)
+    }
+
+    pub async fn quest_start_timer(&self, args: QuestArgs) -> Result<QuestStartTimerRes, JsValue> {
+        let args_value = serde_wasm_bindgen::to_value(&args)?;
+        let res = self
+            .internal
+            .commands()
+            .quest_start_timer(args_value)
+            .await?;
+        Ok(serde_wasm_bindgen::from_value(res)?)
+    }
+
+    pub async fn request_proxy_ticket_refresh(
+        &self,
+    ) -> Result<RequestProxyTicketRefreshRes, JsValue> {
+        let res = self
+            .internal
+            .commands()
+            .request_proxy_ticket_refresh()
+            .await?;
+        Ok(serde_wasm_bindgen::from_value(res)?)
+    }
+
+    pub async fn invite_user_embedded(&self, args: InviteUserEmbeddedArgs) -> Result<(), JsValue> {
+        let args_value = serde_wasm_bindgen::to_value(&args)?;
+        self.internal
+            .commands()
+            .invite_user_embedded(args_value)
+            .await
+    }
+
+    pub async fn share_interaction(
+        &self,
+        args: ShareInteractionArgs,
+    ) -> Result<ShareInteractionRes, JsValue> {
+        let args_value = serde_wasm_bindgen::to_value(&args)?;
+        let res = self
+            .internal
+            .commands()
+            .share_interaction(args_value)
+            .await?;
+        Ok(serde_wasm_bindgen::from_value(res)?)
+    }
+
+    pub async fn share_link(&self, args: ShareLinkArgs) -> Result<ShareLinkRes, JsValue> {
+        let args_value = serde_wasm_bindgen::to_value(&args)?;
+        let res = self.internal.commands().share_link(args_value).await?;
+        Ok(serde_wasm_bindgen::from_value(res)?)
+    }
+
+    pub async fn get_skus(&self) -> Result<GetSkusRes, JsValue> {
+        let res = self.internal.commands().get_skus().await?;
+        Ok(serde_wasm_bindgen::from_value(res)?)
+    }
+
+    pub async fn get_entitlements(&self) -> Result<GetEntitlementsRes, JsValue> {
+        let res = self.internal.commands().get_entitlements().await?;
+        Ok(serde_wasm_bindgen::from_value(res)?)
+    }
+
+    pub async fn start_purchase(
+        &self,
+        args: StartPurchaseArgs,
+    ) -> Result<Option<Vec<Entitlement>>, JsValue> {
+        let args_value = serde_wasm_bindgen::to_value(&args)?;
+        let res = self.internal.commands().start_purchase(args_value).await?;
         Ok(serde_wasm_bindgen::from_value(res)?)
     }
 

@@ -33,6 +33,9 @@ extern "C" {
     #[wasm_bindgen(method, getter, js_name = sourceOrigin)]
     pub fn source_origin(this: &DiscordSDK) -> Option<String>;
 
+    #[wasm_bindgen(method, getter, js_name = locationId)]
+    pub fn location_id(this: &DiscordSDK) -> Option<String>;
+
     #[wasm_bindgen(method, getter)]
     pub fn configuration(this: &DiscordSDK) -> JsValue;
 
@@ -84,6 +87,64 @@ extern "C" {
     #[wasm_bindgen(method, catch, js_name = getInstanceConnectedParticipants)]
     pub async fn get_instance_connected_participants(
         this: &DiscordSDKCommands,
+    ) -> Result<JsValue, JsValue>;
+
+    #[wasm_bindgen(method, catch, js_name = getActivityInstanceConnectedParticipants)]
+    pub async fn get_activity_instance_connected_participants(
+        this: &DiscordSDKCommands,
+    ) -> Result<JsValue, JsValue>;
+
+    #[wasm_bindgen(method, catch, js_name = getUser)]
+    pub async fn get_user(this: &DiscordSDKCommands, args: JsValue) -> Result<JsValue, JsValue>;
+
+    #[wasm_bindgen(method, catch, js_name = getRelationships)]
+    pub async fn get_relationships(this: &DiscordSDKCommands) -> Result<JsValue, JsValue>;
+
+    #[wasm_bindgen(method, catch, js_name = getQuest)]
+    pub async fn get_quest(this: &DiscordSDKCommands) -> Result<JsValue, JsValue>;
+
+    #[wasm_bindgen(method, catch, js_name = getQuestEnrollmentStatus)]
+    pub async fn get_quest_enrollment_status(
+        this: &DiscordSDKCommands,
+        args: JsValue,
+    ) -> Result<JsValue, JsValue>;
+
+    #[wasm_bindgen(method, catch, js_name = questStartTimer)]
+    pub async fn quest_start_timer(
+        this: &DiscordSDKCommands,
+        args: JsValue,
+    ) -> Result<JsValue, JsValue>;
+
+    #[wasm_bindgen(method, catch, js_name = requestProxyTicketRefresh)]
+    pub async fn request_proxy_ticket_refresh(
+        this: &DiscordSDKCommands,
+    ) -> Result<JsValue, JsValue>;
+
+    #[wasm_bindgen(method, catch, js_name = inviteUserEmbedded)]
+    pub async fn invite_user_embedded(
+        this: &DiscordSDKCommands,
+        args: JsValue,
+    ) -> Result<(), JsValue>;
+
+    #[wasm_bindgen(method, catch, js_name = shareInteraction)]
+    pub async fn share_interaction(
+        this: &DiscordSDKCommands,
+        args: JsValue,
+    ) -> Result<JsValue, JsValue>;
+
+    #[wasm_bindgen(method, catch, js_name = shareLink)]
+    pub async fn share_link(this: &DiscordSDKCommands, args: JsValue) -> Result<JsValue, JsValue>;
+
+    #[wasm_bindgen(method, catch, js_name = getSkus)]
+    pub async fn get_skus(this: &DiscordSDKCommands) -> Result<JsValue, JsValue>;
+
+    #[wasm_bindgen(method, catch, js_name = getEntitlements)]
+    pub async fn get_entitlements(this: &DiscordSDKCommands) -> Result<JsValue, JsValue>;
+
+    #[wasm_bindgen(method, catch, js_name = startPurchase)]
+    pub async fn start_purchase(
+        this: &DiscordSDKCommands,
+        args: JsValue,
     ) -> Result<JsValue, JsValue>;
 
     #[wasm_bindgen(method, catch, js_name = getPlatformBehaviors)]

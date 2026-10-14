@@ -193,7 +193,7 @@ var require_eventemitter3 = __commonJS({
 // node_modules/big-integer/BigInteger.js
 var require_BigInteger = __commonJS({
   "node_modules/big-integer/BigInteger.js"(exports, module) {
-    var bigInt3 = function(undefined2) {
+    var bigInt3 = (function(undefined2) {
       "use strict";
       var BASE = 1e7, LOG_BASE = 7, MAX_INT = 9007199254740992, MAX_INT_ARR = smallToArray(MAX_INT), DEFAULT_ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyz";
       var supportsNativeBigInt = typeof BigInt === "function";
@@ -1434,7 +1434,7 @@ var require_BigInteger = __commonJS({
         return parseBaseFromArray(digits.map(parseValue), parseValue(base || 10), isNegative);
       };
       return Integer;
-    }();
+    })();
     if (typeof module !== "undefined" && module.hasOwnProperty("exports")) {
       module.exports = bigInt3;
     }
@@ -1878,7 +1878,7 @@ var require_decimal = __commonJS({
         for (; w % 10 === 0; ) w /= 10;
         return str + w;
       }
-      var divide = /* @__PURE__ */ function() {
+      var divide = /* @__PURE__ */ (function() {
         function multiplyInteger(x, k) {
           var temp, carry = 0, i = x.length;
           for (x = x.slice(); i--; ) {
@@ -2008,7 +2008,7 @@ var require_decimal = __commonJS({
           q.e = e;
           return round(q, dp ? pr + getBase10Exponent(q) + 1 : pr);
         };
-      }();
+      })();
       function exp(x, sd) {
         var denominator, guard, pow, sum, t, wpr, i = 0, k = 0, Ctor = x.constructor, pr = Ctor.precision;
         if (getBase10Exponent(x) > 16) throw Error(exponentOutOfRange + getBase10Exponent(x));
@@ -2487,12 +2487,12 @@ var require_lodash = __commonJS({
     var freeModule = freeExports && typeof module == "object" && module && !module.nodeType && module;
     var moduleExports = freeModule && freeModule.exports === freeExports;
     var freeProcess = moduleExports && freeGlobal.process;
-    var nodeUtil = function() {
+    var nodeUtil = (function() {
       try {
         return freeProcess && freeProcess.binding("util");
       } catch (e) {
       }
-    }();
+    })();
     var nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray;
     function arrayEach(array, iteratee) {
       var index = -1, length = array ? array.length : 0;
@@ -2565,10 +2565,10 @@ var require_lodash = __commonJS({
     var funcProto = Function.prototype;
     var objectProto = Object.prototype;
     var coreJsData = root["__core-js_shared__"];
-    var maskSrcKey = function() {
+    var maskSrcKey = (function() {
       var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || "");
       return uid ? "Symbol(src)_1." + uid : "";
-    }();
+    })();
     var funcToString = funcProto.toString;
     var hasOwnProperty = objectProto.hasOwnProperty;
     var objectToString = objectProto.toString;
@@ -7082,14 +7082,14 @@ var ostring = () => stringType().optional();
 var onumber = () => numberType().optional();
 var oboolean = () => booleanType().optional();
 var coerce = {
-  string: (arg) => ZodString.create({ ...arg, coerce: true }),
-  number: (arg) => ZodNumber.create({ ...arg, coerce: true }),
-  boolean: (arg) => ZodBoolean.create({
+  string: ((arg) => ZodString.create({ ...arg, coerce: true })),
+  number: ((arg) => ZodNumber.create({ ...arg, coerce: true })),
+  boolean: ((arg) => ZodBoolean.create({
     ...arg,
     coerce: true
-  }),
-  bigint: (arg) => ZodBigInt.create({ ...arg, coerce: true }),
-  date: (arg) => ZodDate.create({ ...arg, coerce: true })
+  })),
+  bigint: ((arg) => ZodBigInt.create({ ...arg, coerce: true })),
+  date: ((arg) => ZodDate.create({ ...arg, coerce: true }))
 };
 var NEVER = INVALID;
 var z = /* @__PURE__ */ Object.freeze({
@@ -7410,8 +7410,14 @@ var RPCCloseCodes = /* @__PURE__ */ ((RPCCloseCodes3) => {
 var RPCErrorCodes = /* @__PURE__ */ ((RPCErrorCodes2) => {
   RPCErrorCodes2[RPCErrorCodes2["INVALID_PAYLOAD"] = 4e3] = "INVALID_PAYLOAD";
   RPCErrorCodes2[RPCErrorCodes2["INVALID_COMMAND"] = 4002] = "INVALID_COMMAND";
+  RPCErrorCodes2[RPCErrorCodes2["INVALID_GUILD"] = 4003] = "INVALID_GUILD";
   RPCErrorCodes2[RPCErrorCodes2["INVALID_EVENT"] = 4004] = "INVALID_EVENT";
+  RPCErrorCodes2[RPCErrorCodes2["INVALID_CHANNEL"] = 4005] = "INVALID_CHANNEL";
   RPCErrorCodes2[RPCErrorCodes2["INVALID_PERMISSIONS"] = 4006] = "INVALID_PERMISSIONS";
+  RPCErrorCodes2[RPCErrorCodes2["INVALID_CLIENTID"] = 4007] = "INVALID_CLIENTID";
+  RPCErrorCodes2[RPCErrorCodes2["INVALID_ORIGIN"] = 4008] = "INVALID_ORIGIN";
+  RPCErrorCodes2[RPCErrorCodes2["INVALID_TOKEN"] = 4009] = "INVALID_TOKEN";
+  RPCErrorCodes2[RPCErrorCodes2["INVALID_USER"] = 4010] = "INVALID_USER";
   return RPCErrorCodes2;
 })(RPCErrorCodes || {});
 var Orientation = /* @__PURE__ */ ((Orientation3) => {
@@ -7518,6 +7524,7 @@ __export(common_exports, {
   PresenceUpdate: () => PresenceUpdate,
   Reaction: () => Reaction,
   ReceiveFramePayload: () => ReceiveFramePayload,
+  Relationship: () => Relationship,
   Role: () => Role,
   Scopes: () => Scopes,
   ScopesObject: () => ScopesObject,
@@ -7564,9 +7571,9 @@ function fallbackToDefault(schema) {
 }
 
 // src/generated/schemas.ts
-var InitiateImageUploadResponseSchema = z.object({ image_url: z.string() });
-var OpenShareMomentDialogRequestSchema = z.object({ mediaUrl: z.string().max(1024) });
-var AuthenticateRequestSchema = z.object({ access_token: z.union([z.string(), z.null()]).optional() });
+var InitiateImageUploadResponseSchema = z.object({ image_url: z.string() }).describe('Response for "INITIATE_IMAGE_UPLOAD" Command');
+var OpenShareMomentDialogRequestSchema = z.object({ mediaUrl: z.string().max(1024) }).describe('Request for "OPEN_SHARE_MOMENT_DIALOG" Command');
+var AuthenticateRequestSchema = z.object({ access_token: z.union([z.string(), z.null()]).optional() }).describe('Request for "AUTHENTICATE" Command');
 var AuthenticateResponseSchema = z.object({
   access_token: z.string(),
   user: z.object({
@@ -7581,6 +7588,7 @@ var AuthenticateResponseSchema = z.object({
     fallbackToDefault(
       z.enum([
         "identify",
+        "identify.premium",
         "email",
         "connections",
         "guilds",
@@ -7609,6 +7617,7 @@ var AuthenticateResponseSchema = z.object({
         "applications.entitlements",
         "activities.read",
         "activities.write",
+        "activities.invites.write",
         "relationships.read",
         "relationships.write",
         "voice",
@@ -7622,7 +7631,10 @@ var AuthenticateResponseSchema = z.object({
         "gateway.connect",
         "account.global_name.update",
         "payment_sources.country_code",
-        "sdk.social_layer"
+        "sdk.social_layer_presence",
+        "sdk.social_layer",
+        "lobbies.write",
+        "application_identities.write"
       ]).or(z.literal(-1)).default(-1)
     )
   ),
@@ -7634,7 +7646,7 @@ var AuthenticateResponseSchema = z.object({
     rpc_origins: z.array(z.string()).optional(),
     name: z.string()
   })
-});
+}).describe('Response for "AUTHENTICATE" Command');
 var GetActivityInstanceConnectedParticipantsResponseSchema = z.object({
   participants: z.array(
     z.object({
@@ -7645,15 +7657,24 @@ var GetActivityInstanceConnectedParticipantsResponseSchema = z.object({
       avatar: z.union([z.string(), z.null()]).optional(),
       flags: z.number(),
       bot: z.boolean(),
-      avatar_decoration_data: z.union([z.object({ asset: z.string(), skuId: z.string().optional() }), z.null()]).optional(),
+      avatar_decoration_data: z.union([
+        z.object({
+          asset: z.union([z.string(), z.null()]).optional(),
+          skuId: z.string().optional(),
+          expiresAt: z.number().optional()
+        }),
+        z.null()
+      ]).optional(),
       premium_type: z.union([z.number(), z.null()]).optional(),
       nickname: z.string().optional()
     })
   )
-});
+}).describe('Response for "GET_ACTIVITY_INSTANCE_CONNECTED_PARTICIPANTS" Command');
 var ShareInteractionRequestSchema = z.object({
   command: z.string(),
+  options: z.array(z.object({ name: z.string(), value: z.string() })).optional(),
   content: z.string().max(2e3).optional(),
+  require_launch_channel: z.boolean().optional(),
   preview_image: z.object({ height: z.number(), url: z.string(), width: z.number() }).optional(),
   components: z.array(
     z.object({
@@ -7667,14 +7688,125 @@ var ShareInteractionRequestSchema = z.object({
         })
       ).max(5).optional()
     })
-  ).optional()
-});
+  ).optional(),
+  pid: z.number().optional()
+}).describe('Request for "SHARE_INTERACTION" Command');
+var ShareInteractionResponseSchema = z.object({ success: z.boolean() }).describe('Response for "SHARE_INTERACTION" Command');
 var ShareLinkRequestSchema = z.object({
-  referrer_id: z.string().max(64).optional(),
   custom_id: z.string().max(64).optional(),
-  message: z.string().max(1e3)
-});
-var ShareLinkResponseSchema = z.object({ success: z.boolean() });
+  message: z.string().max(1e3),
+  link_id: z.string().max(64).optional()
+}).describe('Request for "SHARE_LINK" Command');
+var ShareLinkResponseSchema = z.object({ success: z.boolean(), didCopyLink: z.boolean(), didSendMessage: z.boolean() }).describe('Response for "SHARE_LINK" Command');
+var GetRelationshipsResponseSchema = z.object({
+  relationships: z.array(
+    z.object({
+      type: z.number(),
+      user: z.object({
+        id: z.string(),
+        username: z.string(),
+        global_name: z.union([z.string(), z.null()]).optional(),
+        discriminator: z.string(),
+        avatar: z.union([z.string(), z.null()]).optional(),
+        flags: z.number(),
+        bot: z.boolean(),
+        avatar_decoration_data: z.union([
+          z.object({
+            asset: z.union([z.string(), z.null()]).optional(),
+            skuId: z.string().optional(),
+            expiresAt: z.number().optional()
+          }),
+          z.null()
+        ]).optional(),
+        premium_type: z.union([z.number(), z.null()]).optional()
+      }),
+      presence: z.object({
+        status: z.string(),
+        activity: z.union([
+          z.object({
+            session_id: z.string().optional(),
+            type: z.number().optional(),
+            name: z.string(),
+            url: z.union([z.string(), z.null()]).optional(),
+            application_id: z.string().optional(),
+            status_display_type: z.number().optional(),
+            state: z.string().optional(),
+            state_url: z.string().optional(),
+            details: z.string().optional(),
+            details_url: z.string().optional(),
+            emoji: z.union([
+              z.object({
+                name: z.string(),
+                id: z.union([z.string(), z.null()]).optional(),
+                animated: z.union([z.boolean(), z.null()]).optional()
+              }),
+              z.null()
+            ]).optional(),
+            assets: z.object({
+              large_image: z.string().optional(),
+              large_text: z.string().optional(),
+              large_url: z.string().optional(),
+              small_image: z.string().optional(),
+              small_text: z.string().optional(),
+              small_url: z.string().optional()
+            }).optional(),
+            timestamps: z.object({ start: z.number().optional(), end: z.number().optional() }).optional(),
+            party: z.object({
+              id: z.string().optional(),
+              size: z.array(z.number()).min(2).max(2).optional(),
+              privacy: z.number().optional()
+            }).optional(),
+            secrets: z.object({ match: z.string().optional(), join: z.string().optional() }).optional(),
+            sync_id: z.string().optional(),
+            created_at: z.number().optional(),
+            instance: z.boolean().optional(),
+            flags: z.number().optional(),
+            metadata: z.object({}).optional(),
+            platform: z.string().optional(),
+            supported_platforms: z.array(z.string()).optional(),
+            buttons: z.array(z.string()).optional(),
+            hangStatus: z.string().optional()
+          }),
+          z.null()
+        ]).optional()
+      }).optional()
+    })
+  )
+}).describe('Response for "GET_RELATIONSHIPS" Command');
+var InviteUserEmbeddedRequestSchema = z.object({ user_id: z.string(), content: z.string().min(0).max(1024).optional() }).describe('Request for "INVITE_USER_EMBEDDED" Command');
+var GetUserRequestSchema = z.object({ id: z.string().max(64) }).describe('Request for "GET_USER" Command');
+var GetUserResponseSchema = z.union([
+  z.object({
+    id: z.string(),
+    username: z.string(),
+    global_name: z.union([z.string(), z.null()]).optional(),
+    discriminator: z.string(),
+    avatar: z.union([z.string(), z.null()]).optional(),
+    flags: z.number(),
+    bot: z.boolean(),
+    avatar_decoration_data: z.union([
+      z.object({
+        asset: z.union([z.string(), z.null()]).optional(),
+        skuId: z.string().optional(),
+        expiresAt: z.number().optional()
+      }),
+      z.null()
+    ]).optional(),
+    premium_type: z.union([z.number(), z.null()]).optional()
+  }),
+  z.null()
+]);
+var GetQuestEnrollmentStatusRequestSchema = z.object({ quest_id: z.string() }).describe('Request for "GET_QUEST_ENROLLMENT_STATUS" Command');
+var GetQuestEnrollmentStatusResponseSchema = z.object({ quest_id: z.string(), is_enrolled: z.boolean(), enrolled_at: z.union([z.string(), z.null()]).optional() }).describe('Response for "GET_QUEST_ENROLLMENT_STATUS" Command');
+var QuestStartTimerRequestSchema = z.object({ quest_id: z.string() }).describe('Request for "QUEST_START_TIMER" Command');
+var QuestStartTimerResponseSchema = z.object({ success: z.boolean() }).describe('Response for "QUEST_START_TIMER" Command');
+var GetQuestResponseSchema = z.object({
+  quest_id: z.string(),
+  enrolled_at: z.union([z.string(), z.null()]).optional(),
+  completed_at: z.union([z.string(), z.null()]).optional(),
+  external_cta_url: z.string()
+}).describe('Response for "GET_QUEST" Command');
+var RequestProxyTicketRefreshResponseSchema = z.object({ ticket: z.string() }).describe('Response for "REQUEST_PROXY_TICKET_REFRESH" Command');
 var emptyResponseSchema = z.object({}).optional().nullable();
 var emptyRequestSchema = z.void();
 var Schemas = {
@@ -7696,11 +7828,39 @@ var Schemas = {
   },
   ["SHARE_INTERACTION" /* SHARE_INTERACTION */]: {
     request: ShareInteractionRequestSchema,
-    response: emptyResponseSchema
+    response: ShareInteractionResponseSchema
   },
   ["SHARE_LINK" /* SHARE_LINK */]: {
     request: ShareLinkRequestSchema,
     response: ShareLinkResponseSchema
+  },
+  ["GET_RELATIONSHIPS" /* GET_RELATIONSHIPS */]: {
+    request: emptyRequestSchema,
+    response: GetRelationshipsResponseSchema
+  },
+  ["INVITE_USER_EMBEDDED" /* INVITE_USER_EMBEDDED */]: {
+    request: InviteUserEmbeddedRequestSchema,
+    response: emptyResponseSchema
+  },
+  ["GET_USER" /* GET_USER */]: {
+    request: GetUserRequestSchema,
+    response: GetUserResponseSchema
+  },
+  ["GET_QUEST_ENROLLMENT_STATUS" /* GET_QUEST_ENROLLMENT_STATUS */]: {
+    request: GetQuestEnrollmentStatusRequestSchema,
+    response: GetQuestEnrollmentStatusResponseSchema
+  },
+  ["QUEST_START_TIMER" /* QUEST_START_TIMER */]: {
+    request: QuestStartTimerRequestSchema,
+    response: QuestStartTimerResponseSchema
+  },
+  ["GET_QUEST" /* GET_QUEST */]: {
+    request: emptyRequestSchema,
+    response: GetQuestResponseSchema
+  },
+  ["REQUEST_PROXY_TICKET_REFRESH" /* REQUEST_PROXY_TICKET_REFRESH */]: {
+    request: emptyRequestSchema,
+    response: RequestProxyTicketRefreshResponseSchema
   }
 };
 
@@ -7708,7 +7868,6 @@ var Schemas = {
 var DISPATCH = "DISPATCH";
 var Commands = /* @__PURE__ */ ((Commands5) => {
   Commands5["AUTHORIZE"] = "AUTHORIZE";
-  Commands5["AUTHENTICATE"] = "AUTHENTICATE";
   Commands5["GET_GUILDS"] = "GET_GUILDS";
   Commands5["GET_GUILD"] = "GET_GUILD";
   Commands5["GET_CHANNEL"] = "GET_CHANNEL";
@@ -7735,9 +7894,18 @@ var Commands = /* @__PURE__ */ ((Commands5) => {
   Commands5["OPEN_INVITE_DIALOG"] = "OPEN_INVITE_DIALOG";
   Commands5["GET_PLATFORM_BEHAVIORS"] = "GET_PLATFORM_BEHAVIORS";
   Commands5["GET_CHANNEL_PERMISSIONS"] = "GET_CHANNEL_PERMISSIONS";
-  Commands5["OPEN_SHARE_MOMENT_DIALOG"] = "OPEN_SHARE_MOMENT_DIALOG";
-  Commands5["INITIATE_IMAGE_UPLOAD"] = "INITIATE_IMAGE_UPLOAD";
+  Commands5["AUTHENTICATE"] = "AUTHENTICATE";
   Commands5["GET_ACTIVITY_INSTANCE_CONNECTED_PARTICIPANTS"] = "GET_ACTIVITY_INSTANCE_CONNECTED_PARTICIPANTS";
+  Commands5["GET_QUEST"] = "GET_QUEST";
+  Commands5["GET_QUEST_ENROLLMENT_STATUS"] = "GET_QUEST_ENROLLMENT_STATUS";
+  Commands5["GET_RELATIONSHIPS"] = "GET_RELATIONSHIPS";
+  Commands5["GET_USER"] = "GET_USER";
+  Commands5["INITIATE_IMAGE_UPLOAD"] = "INITIATE_IMAGE_UPLOAD";
+  Commands5["INVITE_USER_EMBEDDED"] = "INVITE_USER_EMBEDDED";
+  Commands5["OPEN_SHARE_MOMENT_DIALOG"] = "OPEN_SHARE_MOMENT_DIALOG";
+  Commands5["QUEST_START_TIMER"] = "QUEST_START_TIMER";
+  Commands5["REQUEST_PROXY_TICKET_REFRESH"] = "REQUEST_PROXY_TICKET_REFRESH";
+  Commands5["SHARE_INTERACTION"] = "SHARE_INTERACTION";
   Commands5["SHARE_LINK"] = "SHARE_LINK";
   return Commands5;
 })(Commands || {});
@@ -7752,6 +7920,7 @@ var ScopesObject = {
   UNHANDLED: -1
 };
 var Scopes = zodCoerceUnhandledValue(ScopesObject);
+var Relationship = GetRelationshipsResponseSchema.shape.relationships.element;
 var User = objectType({
   id: stringType(),
   username: stringType(),
@@ -7828,7 +7997,9 @@ var Activity = objectType({
   }).partial().optional().nullable(),
   application_id: stringType().optional().nullable(),
   details: stringType().optional().nullable(),
+  details_url: stringType().url().optional().nullable(),
   state: stringType().optional().nullable(),
+  state_url: stringType().url().optional().nullable(),
   emoji: Emoji.optional().nullable(),
   party: objectType({
     id: stringType().optional().nullable(),
@@ -7837,8 +8008,10 @@ var Activity = objectType({
   assets: objectType({
     large_image: stringType().nullable(),
     large_text: stringType().nullable(),
+    large_url: stringType().url().optional().nullable(),
     small_image: stringType().nullable(),
-    small_text: stringType().nullable()
+    small_text: stringType().nullable(),
+    small_url: stringType().url().optional().nullable()
   }).partial().optional().nullable(),
   secrets: objectType({
     join: stringType(),
@@ -8216,6 +8389,9 @@ var Events = /* @__PURE__ */ ((Events2) => {
   Events2["ENTITLEMENT_CREATE"] = "ENTITLEMENT_CREATE";
   Events2["THERMAL_STATE_UPDATE"] = "THERMAL_STATE_UPDATE";
   Events2["ACTIVITY_INSTANCE_PARTICIPANTS_UPDATE"] = "ACTIVITY_INSTANCE_PARTICIPANTS_UPDATE";
+  Events2["RELATIONSHIP_UPDATE"] = "RELATIONSHIP_UPDATE";
+  Events2["ACTIVITY_JOIN"] = "ACTIVITY_JOIN";
+  Events2["QUEST_ENROLLMENT_STATUS_UPDATE"] = "QUEST_ENROLLMENT_STATUS_UPDATE";
   return Events2;
 })(Events || {});
 var DispatchEventFrame = ReceiveFramePayload.extend({
@@ -8373,6 +8549,31 @@ var EventSchema = {
       evt: literalType("ACTIVITY_INSTANCE_PARTICIPANTS_UPDATE" /* ACTIVITY_INSTANCE_PARTICIPANTS_UPDATE */),
       data: objectType({
         participants: GetActivityInstanceConnectedParticipantsResponseSchema.shape.participants
+      })
+    })
+  },
+  ["RELATIONSHIP_UPDATE" /* RELATIONSHIP_UPDATE */]: {
+    payload: DispatchEventFrame.extend({
+      evt: literalType("RELATIONSHIP_UPDATE" /* RELATIONSHIP_UPDATE */),
+      data: Relationship
+    })
+  },
+  ["ACTIVITY_JOIN" /* ACTIVITY_JOIN */]: {
+    payload: DispatchEventFrame.extend({
+      evt: literalType("ACTIVITY_JOIN" /* ACTIVITY_JOIN */),
+      data: objectType({
+        applicationId: stringType(),
+        secret: stringType()
+      })
+    })
+  },
+  ["QUEST_ENROLLMENT_STATUS_UPDATE" /* QUEST_ENROLLMENT_STATUS_UPDATE */]: {
+    payload: DispatchEventFrame.extend({
+      evt: literalType("QUEST_ENROLLMENT_STATUS_UPDATE" /* QUEST_ENROLLMENT_STATUS_UPDATE */),
+      data: objectType({
+        quest_id: stringType(),
+        is_enrolled: booleanType(),
+        enrolled_at: stringType().date()
       })
     })
   }
@@ -8545,11 +8746,19 @@ function parseResponseData({ cmd, data }) {
     case "GET_SKUS" /* GET_SKUS */:
     case "GET_ENTITLEMENTS" /* GET_ENTITLEMENTS */:
       return EmptyResponse.parse(data);
-    // Generated Responses
+    // START-GENERATED-SECTION
     case "AUTHENTICATE" /* AUTHENTICATE */:
-    case "INITIATE_IMAGE_UPLOAD" /* INITIATE_IMAGE_UPLOAD */:
-    case "OPEN_SHARE_MOMENT_DIALOG" /* OPEN_SHARE_MOMENT_DIALOG */:
     case "GET_ACTIVITY_INSTANCE_CONNECTED_PARTICIPANTS" /* GET_ACTIVITY_INSTANCE_CONNECTED_PARTICIPANTS */:
+    case "GET_QUEST" /* GET_QUEST */:
+    case "GET_QUEST_ENROLLMENT_STATUS" /* GET_QUEST_ENROLLMENT_STATUS */:
+    case "GET_RELATIONSHIPS" /* GET_RELATIONSHIPS */:
+    case "GET_USER" /* GET_USER */:
+    case "INITIATE_IMAGE_UPLOAD" /* INITIATE_IMAGE_UPLOAD */:
+    case "INVITE_USER_EMBEDDED" /* INVITE_USER_EMBEDDED */:
+    case "OPEN_SHARE_MOMENT_DIALOG" /* OPEN_SHARE_MOMENT_DIALOG */:
+    case "QUEST_START_TIMER" /* QUEST_START_TIMER */:
+    case "REQUEST_PROXY_TICKET_REFRESH" /* REQUEST_PROXY_TICKET_REFRESH */:
+    case "SHARE_INTERACTION" /* SHARE_INTERACTION */:
     case "SHARE_LINK" /* SHARE_LINK */:
       const { response } = Schemas[cmd];
       return response.parse(data);
@@ -8627,9 +8836,6 @@ function schemaCommandFactory(cmd, transferTransform = () => void 0) {
   };
 }
 
-// src/commands/authenticate.ts
-var authenticate = schemaCommandFactory("AUTHENTICATE" /* AUTHENTICATE */);
-
 // src/commands/authorize.ts
 var authorize = (sendCommand) => commandFactory(sendCommand, "AUTHORIZE" /* AUTHORIZE */, AuthorizeResponse);
 
@@ -8642,6 +8848,9 @@ var encourageHardwareAcceleration = (sendCommand) => commandFactory(
   "ENCOURAGE_HW_ACCELERATION" /* ENCOURAGE_HW_ACCELERATION */,
   EncourageHardwareAccelerationResponse
 );
+
+// src/commands/getChannel.ts
+var getChannel = (sendCommand) => commandFactory(sendCommand, "GET_CHANNEL" /* GET_CHANNEL */, GetChannelResponse);
 
 // src/commands/getEntitlements.ts
 var getEntitlements = (sendCommand) => commandFactory(
@@ -8677,13 +8886,12 @@ var openExternalLink = (sendCommand) => commandFactory(
 // src/commands/openInviteDialog.ts
 var openInviteDialog = (sendCommand) => commandFactory(sendCommand, "OPEN_INVITE_DIALOG" /* OPEN_INVITE_DIALOG */, EmptyResponse);
 
-// src/commands/openShareMomentDialog.ts
-var openShareMomentDialog = schemaCommandFactory("OPEN_SHARE_MOMENT_DIALOG" /* OPEN_SHARE_MOMENT_DIALOG */);
-
 // src/commands/setActivity.ts
 var SetActivity = Activity.pick({
   state: true,
+  state_url: true,
   details: true,
+  details_url: true,
   timestamps: true,
   assets: true,
   party: true,
@@ -8743,9 +8951,6 @@ var setOrientationLockState = (sendCommand) => compatCommandFactory({
   fallbackTransform
 });
 
-// src/commands/shareLink.ts
-var shareLink = schemaCommandFactory("SHARE_LINK" /* SHARE_LINK */);
-
 // src/commands/startPurchase.ts
 var startPurchase = (sendCommand) => commandFactory(
   sendCommand,
@@ -8760,21 +8965,50 @@ var userSettingsGetLocale = (sendCommand) => commandFactory(
   UserSettingsGetLocaleResponse
 );
 
+// src/commands/authenticate.ts
+var authenticate = schemaCommandFactory("AUTHENTICATE" /* AUTHENTICATE */);
+
+// src/commands/getActivityInstanceConnectedParticipants.ts
+var getActivityInstanceConnectedParticipants = schemaCommandFactory(
+  "GET_ACTIVITY_INSTANCE_CONNECTED_PARTICIPANTS" /* GET_ACTIVITY_INSTANCE_CONNECTED_PARTICIPANTS */
+);
+
+// src/commands/getQuest.ts
+var getQuest = schemaCommandFactory("GET_QUEST" /* GET_QUEST */);
+
+// src/commands/getQuestEnrollmentStatus.ts
+var getQuestEnrollmentStatus = schemaCommandFactory("GET_QUEST_ENROLLMENT_STATUS" /* GET_QUEST_ENROLLMENT_STATUS */);
+
+// src/commands/getRelationships.ts
+var getRelationships = schemaCommandFactory("GET_RELATIONSHIPS" /* GET_RELATIONSHIPS */);
+
+// src/commands/getUser.ts
+var getUser = schemaCommandFactory("GET_USER" /* GET_USER */);
+
 // src/commands/initiateImageUpload.ts
 var initiateImageUpload = schemaCommandFactory("INITIATE_IMAGE_UPLOAD" /* INITIATE_IMAGE_UPLOAD */);
 
-// src/commands/getChannel.ts
-var getChannel = (sendCommand) => commandFactory(sendCommand, "GET_CHANNEL" /* GET_CHANNEL */, GetChannelResponse);
+// src/commands/inviteUserEmbedded.ts
+var inviteUserEmbedded = schemaCommandFactory("INVITE_USER_EMBEDDED" /* INVITE_USER_EMBEDDED */);
 
-// src/commands/getInstanceConnectedParticipants.ts
-var getInstanceConnectedParticipants = schemaCommandFactory(
-  "GET_ACTIVITY_INSTANCE_CONNECTED_PARTICIPANTS" /* GET_ACTIVITY_INSTANCE_CONNECTED_PARTICIPANTS */
-);
+// src/commands/openShareMomentDialog.ts
+var openShareMomentDialog = schemaCommandFactory("OPEN_SHARE_MOMENT_DIALOG" /* OPEN_SHARE_MOMENT_DIALOG */);
+
+// src/commands/questStartTimer.ts
+var questStartTimer = schemaCommandFactory("QUEST_START_TIMER" /* QUEST_START_TIMER */);
+
+// src/commands/requestProxyTicketRefresh.ts
+var requestProxyTicketRefresh = schemaCommandFactory("REQUEST_PROXY_TICKET_REFRESH" /* REQUEST_PROXY_TICKET_REFRESH */);
+
+// src/commands/shareInteraction.ts
+var shareInteraction = schemaCommandFactory("SHARE_INTERACTION" /* SHARE_INTERACTION */);
+
+// src/commands/shareLink.ts
+var shareLink = schemaCommandFactory("SHARE_LINK" /* SHARE_LINK */);
 
 // src/commands/index.ts
 function commands(sendCommand) {
   return {
-    authenticate: authenticate(sendCommand),
     authorize: authorize(sendCommand),
     captureLog: captureLog(sendCommand),
     encourageHardwareAcceleration: encourageHardwareAcceleration(sendCommand),
@@ -8785,25 +9019,37 @@ function commands(sendCommand) {
     getSkus: getSkus(sendCommand),
     openExternalLink: openExternalLink(sendCommand),
     openInviteDialog: openInviteDialog(sendCommand),
-    openShareMomentDialog: openShareMomentDialog(sendCommand),
     setActivity: setActivity(sendCommand),
     setConfig: setConfig(sendCommand),
     setOrientationLockState: setOrientationLockState(sendCommand),
-    shareLink: shareLink(sendCommand),
     startPurchase: startPurchase(sendCommand),
     userSettingsGetLocale: userSettingsGetLocale(sendCommand),
+    // Backward compatibility - getInstanceConnectedParticipants is an alias for getActivityInstanceConnectedParticipants
+    getInstanceConnectedParticipants: getActivityInstanceConnectedParticipants(sendCommand),
+    // START-GENERATED-SECTION
+    authenticate: authenticate(sendCommand),
+    getActivityInstanceConnectedParticipants: getActivityInstanceConnectedParticipants(sendCommand),
+    getQuest: getQuest(sendCommand),
+    getQuestEnrollmentStatus: getQuestEnrollmentStatus(sendCommand),
+    getRelationships: getRelationships(sendCommand),
+    getUser: getUser(sendCommand),
     initiateImageUpload: initiateImageUpload(sendCommand),
-    getInstanceConnectedParticipants: getInstanceConnectedParticipants(sendCommand)
+    inviteUserEmbedded: inviteUserEmbedded(sendCommand),
+    openShareMomentDialog: openShareMomentDialog(sendCommand),
+    questStartTimer: questStartTimer(sendCommand),
+    requestProxyTicketRefresh: requestProxyTicketRefresh(sendCommand),
+    shareInteraction: shareInteraction(sendCommand),
+    shareLink: shareLink(sendCommand)
+    // END-GENERATED-SECTION
   };
 }
 var commands_default = commands;
 
 // node_modules/uuid/dist/esm-browser/stringify.js
 var byteToHex = [];
-for (i = 0; i < 256; ++i) {
+for (let i = 0; i < 256; ++i) {
   byteToHex.push((i + 256).toString(16).slice(1));
 }
-var i;
 function unsafeStringify(arr, offset = 0) {
   return (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase();
 }
@@ -8813,19 +9059,17 @@ var getRandomValues;
 var rnds8 = new Uint8Array(16);
 function rng() {
   if (!getRandomValues) {
-    getRandomValues = typeof crypto !== "undefined" && crypto.getRandomValues && crypto.getRandomValues.bind(crypto);
-    if (!getRandomValues) {
+    if (typeof crypto === "undefined" || !crypto.getRandomValues) {
       throw new Error("crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported");
     }
+    getRandomValues = crypto.getRandomValues.bind(crypto);
   }
   return getRandomValues(rnds8);
 }
 
 // node_modules/uuid/dist/esm-browser/native.js
 var randomUUID = typeof crypto !== "undefined" && crypto.randomUUID && crypto.randomUUID.bind(crypto);
-var native_default = {
-  randomUUID
-};
+var native_default = { randomUUID };
 
 // node_modules/uuid/dist/esm-browser/v4.js
 function v4(options, buf, offset) {
@@ -8833,12 +9077,18 @@ function v4(options, buf, offset) {
     return native_default.randomUUID();
   }
   options = options || {};
-  var rnds = options.random || (options.rng || rng)();
+  const rnds = options.random ?? options.rng?.() ?? rng();
+  if (rnds.length < 16) {
+    throw new Error("Random bytes length must be >= 16");
+  }
   rnds[6] = rnds[6] & 15 | 64;
   rnds[8] = rnds[8] & 63 | 128;
   if (buf) {
     offset = offset || 0;
-    for (var i = 0; i < 16; ++i) {
+    if (offset < 0 || offset + 16 > buf.length) {
+      throw new RangeError(`UUID byte range ${offset}:${offset + 15} is out of buffer bounds`);
+    }
+    for (let i = 0; i < 16; ++i) {
       buf[offset + i] = rnds[i];
     }
     return buf;
@@ -8881,7 +9131,7 @@ function wrapConsoleMethod(console2, level, callback) {
 }
 
 // package.json
-var version = "1.9.0";
+var version = "2.5.0";
 
 // src/Discord.ts
 var ALLOWED_ORIGINS = new Set(getAllowedOrigins());
@@ -9393,24 +9643,6 @@ var DiscordSDKMock = class {
 };
 var commandsMockDefault = {
   authorize: () => Promise.resolve({ code: "mock_code" }),
-  authenticate: () => Promise.resolve({
-    access_token: "mock_token",
-    user: {
-      username: "mock_user_username",
-      discriminator: "mock_user_discriminator",
-      id: "mock_user_id",
-      avatar: null,
-      public_flags: 1
-    },
-    scopes: [],
-    expires: new Date(2121, 1, 1).toString(),
-    application: {
-      description: "mock_app_description",
-      icon: "mock_app_icon",
-      id: "mock_app_id",
-      name: "mock_app_name"
-    }
-  }),
   setActivity: () => Promise.resolve({
     name: "mock_activity_name",
     type: 0
@@ -9436,16 +9668,100 @@ var commandsMockDefault = {
     iosKeyboardResizesView: true
   }),
   getChannelPermissions: () => Promise.resolve({ permissions: (0, import_big_integer2.default)(1234567890) }),
+  getInstanceConnectedParticipants: () => Promise.resolve({ participants: [] }),
+  // START-GENERATED-SECTION
   openShareMomentDialog: () => Promise.resolve(null),
-  shareLink: () => Promise.resolve({ success: false }),
+  authenticate: () => Promise.resolve({
+    access_token: "mock_token",
+    user: {
+      username: "mock_user_username",
+      discriminator: "mock_user_discriminator",
+      id: "mock_user_id",
+      avatar: null,
+      public_flags: 1
+    },
+    scopes: [],
+    expires: new Date(2121, 1, 1).toString(),
+    application: {
+      description: "mock_app_description",
+      icon: "mock_app_icon",
+      id: "mock_app_id",
+      name: "mock_app_name"
+    }
+  }),
+  shareLink: () => Promise.resolve({ success: false, didSendMessage: false, didCopyLink: false }),
   initiateImageUpload: () => Promise.resolve({
     image_url: "https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0b52aa9e99b832574a53_full_logo_blurple_RGB.png"
   }),
-  getInstanceConnectedParticipants: () => Promise.resolve({ participants: [] })
+  getRelationships: () => Promise.resolve({
+    relationships: [
+      {
+        type: 1,
+        user: {
+          username: "mock_friend_username",
+          flags: 0,
+          bot: false,
+          discriminator: "mock_friend_discriminator",
+          id: "mock_friend_id_1",
+          avatar: null
+        }
+      },
+      {
+        type: 1,
+        user: {
+          username: "mock_friend_username_with_nickname",
+          flags: 0,
+          bot: false,
+          discriminator: "mock_friend_discriminator_with_nickname",
+          id: "mock_friend_id_2",
+          avatar: null
+        },
+        nickname: "mock_friend_nickname_for_user"
+      },
+      {
+        type: 1,
+        user: {
+          username: "mock_friend_username_with_since",
+          flags: 0,
+          bot: false,
+          discriminator: "mock_friend_discriminator_with_since",
+          id: "mock_friend_id_3",
+          avatar: null
+        },
+        since: "2021-06-29T00:32:37.180813+00:00"
+      }
+    ]
+  }),
+  inviteUserEmbedded: () => Promise.resolve(null),
+  getUser: () => {
+    return Promise.resolve({
+      username: "mock_friend_username",
+      flags: 0,
+      bot: false,
+      discriminator: "mock_friend_discriminator",
+      id: "mock_friend_id_1",
+      avatar: null
+    });
+  },
+  getQuestEnrollmentStatus: () => Promise.resolve({
+    quest_id: "mock_quest_id",
+    is_enrolled: false,
+    enrolled_at: null
+  }),
+  questStartTimer: () => Promise.resolve({ success: true }),
+  getActivityInstanceConnectedParticipants: () => Promise.resolve({ participants: [] }),
+  shareInteraction: () => Promise.resolve({ success: false }),
+  requestProxyTicketRefresh: () => Promise.resolve({ ticket: "mock_ticket" }),
+  getQuest: () => Promise.resolve({
+    quest_id: "mock_quest_id",
+    external_cta_url: "mock_external_cta_url",
+    enrolled_at: null,
+    completed_at: null
+  })
+  // END-GENERATED-SECTION
 };
 
 // src/utils/url.ts
-var PROXY_PREFIX = "/.proxy";
 var SUBSTITUTION_REGEX = /\{([a-z]+)\}/g;
 function regexFromTarget(target) {
   const regexString = target.replace(SUBSTITUTION_REGEX, (match, name) => `(?<${name}>[\\w-]+)`);
@@ -9463,10 +9779,8 @@ function matchAndRewriteURL({ originalURL, prefix, prefixHost, target }) {
     if (replaceValue == null) throw new Error("Misconfigured route.");
     return replaceValue;
   });
-  newURL.pathname += newURL.pathname === "/" ? originalURL.pathname.slice(1) : originalURL.pathname;
-  if ((newURL.hostname.includes("discordsays.com") || newURL.hostname.includes("discordsez.com")) && !newURL.pathname.startsWith(PROXY_PREFIX)) {
-    newURL.pathname = PROXY_PREFIX + newURL.pathname;
-  }
+  const pathToAppend = originalURL.pathname.startsWith("/") ? originalURL.pathname.slice(1) : originalURL.pathname;
+  newURL.pathname += newURL.pathname.endsWith("/") ? pathToAppend : "/" + pathToAppend;
   newURL.pathname = newURL.pathname.replace(targetURL.pathname, "");
   if (originalURL.pathname.endsWith("/") && !newURL.pathname.endsWith("/")) {
     newURL.pathname += "/";
@@ -9590,10 +9904,6 @@ function attemptRecreateScriptNode(node, { url, mappings }) {
 }
 function attemptRemap({ url, mappings }) {
   const newURL = new URL(url.toString());
-  if ((newURL.hostname.includes("discordsays.com") || newURL.hostname.includes("discordsez.com")) && // Only apply proxy prefix once
-  !newURL.pathname.startsWith(PROXY_PREFIX)) {
-    newURL.pathname = PROXY_PREFIX + newURL.pathname;
-  }
   for (const mapping of mappings) {
     const mapped = matchAndRewriteURL({
       originalURL: newURL,
